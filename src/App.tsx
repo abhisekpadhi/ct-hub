@@ -4,7 +4,7 @@ import './App.css'
 import { createIframe } from "cookie-toss";
 
 // Sites allows to access data on the hub domain:
-const dependentDomains = ["droppr.in", "joinclub.in"];
+const dependentDomains = ["ctsat1.netlify.app", "ctsat2.netlify.app"];
 
 // Sets up the contents of the iframe:
 createIframe({ dependentDomains });
