@@ -3,7 +3,7 @@ import './App.css'
 import { createIframe } from "cookie-toss";
 
 // Sites allows to access data on the hub domain:
-const dependentDomains = ["ctsat1.netlify.app", "ctsat2.netlify.app"];
+const dependentDomains = ["ctsat1.netlify.app", "ctsat2.netlify.app", "localhost:3030", "localhost:3040", "localhost"];
 
 // Sets up the contents of the iframe:
 createIframe({ dependentDomains });
@@ -37,8 +37,6 @@ function App() {
   const [success, setSuccess] = useState<boolean | null>(null);
 
   useEffect(() => {
-    window.parent.postMessage('rapydGenieSuccess', '*');
-
     // Called from the iframe
     window.addEventListener('onCheckoutPaymentSuccess', function (event: any) {
       setSuccess(true);
@@ -111,7 +109,7 @@ function App() {
       startCheckout()
   }, [start]);
   if (success === true) {
-    setTimeout(() => {location.reload()}, 3500);
+    window.parent.postMessage('rapydGenieSuccess', '*');
     return (
         <div>
           <img src={'./img.png'} width={132} height={120} alt={'successIcon'} />
