@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  /*text-align: center;*/
 }
 
 .App-logo {
@@ -39,4 +39,71 @@
 
 button {
   font-size: calc(10px + 2vmin);
+}
+
+/* ------[TABLE]-------*/
+/* Center tables for demo */
+table {
+  /*margin: 0 auto;*/
+}
+
+/* Default Table Style */
+table {
+  color: #333;
+  background: white;
+  border: 1px solid grey;
+  font-size: 12pt;
+  border-collapse: collapse;
+}
+table thead th,
+table tfoot th {
+  color: #4f4f4f;
+  background: rgba(0,0,0,.1);
+}
+table caption {
+  padding:.5em;
+}
+table th,
+table td {
+  padding: .5em;
+  border: 1px solid lightgrey;
+}
+
+.clicky {
+  /** Offset the Position **/
+  position: relative;
+  top: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  /** 3D Shadow Effect **/
+  box-shadow: 0 10px 0 0 rgba(0,0,0,0.7);
+
+  /** Visual styling **/
+  display: block;
+  background: #68aa44;
+  color: #eee;
+  padding: 0.6em 0.8em;
+  border: 0;
+  cursor: pointer;
+  font-size: 1.2em;
+  opacity: 0.9;
+}
+
+.clicky:active {
+  /** Remove 3D Effect **/
+  box-shadow: none;
+  top: 10px;
+  margin-bottom: 0;
+}
+
+.clicky:hover {
+  opacity: 1;
+}
+
+.clicky:active,
+.clicky:focus {
+  /** Remove Ugly Yellow Outline **/
+  outline: 0;
+  border: 0;
 }
