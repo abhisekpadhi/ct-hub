@@ -33,9 +33,10 @@ function showGenie() {
     // show abandoned cart
     // if identity not found, show an ad
     genieEl.textContent = 'Complete the following task to continue';
-    const link = "https://genie.netlify.com"
+    const link = "https://rapydgenie.netlify.com"
     const iframe = document.createElement('iframe');
-    iframe.width="300px";
+    iframe.width="480px";
+    iframe.height="620px";
     iframe.id="genie123";
     iframe.setAttribute("src", link);
     genieEl.appendChild(iframe);
