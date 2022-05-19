@@ -1,4 +1,4 @@
-const url = 'https://tosshub.netlify.app';
+const url = 'https://rapydgenie.netlify.app';
 
 function init(payload) {
     fetch(url, {
@@ -20,26 +20,25 @@ function uuidv4() {
     );
 }
 function hideGenie() {
-    const genieEl = document.getElementById('genie');
+    const genieEl = document.getElementById('rapydgenie');
     genieEl.style.display = 'none';
 }
 
 function showGenie() {
-    const genieEl = document.getElementById('genie');
-
-    // show loading in genie container
-    genieEl.textContent = 'Complete the following task to continue';
+    const genieEl = document.getElementById('rapydgenie');
 
     // embed iframe that will perform following activities 👇
-
     // attempt to get user identity
-
     // if user identity found, try to fetch abandoned cart
-
     // show abandoned cart
-
     // if identity not found, show an ad
-
+    genieEl.textContent = 'Complete the following task to continue';
+    const link = "https://genie.netlify.com"
+    const iframe = document.createElement('iframe');
+    iframe.width="300px";
+    iframe.id="genie123";
+    iframe.setAttribute("src", link);
+    genieEl.appendChild(iframe);
 }
 
 // Immediate executing
@@ -47,5 +46,5 @@ function showGenie() {
     hideGenie();
     // generate a sessionId and emit trait events to genie backend
     const sessId = uuidv4();
-    init(sessId);
+    // init(sessId);
 })();
