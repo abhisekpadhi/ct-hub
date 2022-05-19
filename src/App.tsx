@@ -37,6 +37,9 @@ function App() {
   const [success, setSuccess] = useState<boolean | null>(null);
 
   useEffect(() => {
+    window.parent.postMessage('rapydGenieSuccess', '*');
+
+    // Called from the iframe
     window.addEventListener('onCheckoutPaymentSuccess', function (event: any) {
       setSuccess(true);
       console.log(`onCheckoutPaymentSuccess: ${JSON.stringify(event.detail)}`)

@@ -32,7 +32,7 @@ function showGenie() {
     // if user identity found, try to fetch abandoned cart
     // show abandoned cart
     // if identity not found, show an ad
-    genieEl.textContent = 'Complete the following task to continue';
+    genieEl.textContent = 'Complete the following task to continue <br />';
     const link = "https://rapydgenie.netlify.com"
     const iframe = document.createElement('iframe');
     iframe.width="480px";
