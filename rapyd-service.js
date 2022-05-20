@@ -25,10 +25,10 @@ const createCustomer = (name, phone) => {
     return axios.post(url, body, {headers: createRequest('post', path, body)});
 }
 
-const createCheckout = async () => {
-    const path = '/v1/checkout'
+const createCheckout = async (customer, amount) => {
+    const path = '/v1/checkout';
     const url = config.baseRapydApiUrl + path;
-    const body = {"amount":"5.11","country":"IN","currency":"INR","customer":"cus_6117b43f2b0cfff58368fe5d2bda122f","merchant_reference_id":"OD-100","language":"en","payment_method_type":"in_debit_mastercard_card"}
+    const body = {"amount":amount,"country":"IN","currency":"INR","customer":customer,"merchant_reference_id":"OD-100","language":"en","payment_method_type":"in_debit_mastercard_card"}
     return axios.post(url, body, {headers: createRequest('post', path, body)});
 }
 

@@ -1,41 +1,70 @@
 require('dotenv').config()
 const express = require('express')
+const {associateCheckoutIdWithCart} = require("./dal");
+const {getUserByPhone} = require("./dal");
+const {getCart} = require("./dal");
+const {associateTraitUserIdWithViewerId} = require("./dal");
+const {addOrUpdateTraits} = require("./dal");
 const {createCheckout} = require("./rapyd-service");
 const {createCustomer} = require('./rapyd-service')
 const {addUser} = require('./dal');
+const cors = require('cors');
+const {getCartWithItemsByRapydCheckoutId} = require("./dal");
 
 const app = express()
 app.use(express.json());
+app.use(cors({origin: '*'}));
 const port = 3010
 
 // register new user -- Merchant calls this
-app.post('/', async (req, res) => {
-    console.log(`body: ${JSON.stringify(req.body)}`)
-    await addUser({phone: req.body.phone, foo: 'bar'});
+app.post('/customer', async (req, res) => {
+    const {phone, custName} = req.body;
+    const resp = await createCustomer(custName, phone);
+    const rapydCusId = resp.data['data']['id'];
+    console.log(`rapyd create customer: ${JSON.stringify(rapydCusId)}`);
+    await addUser({phone, rapydCusId, custName});
     res.send('ok')
 });
 
-app.post('/customer', async (req, res) => {
+// compute abandoned cart to recover via the ad
+app.post('/ads', async (req, res) => {
     try {
-        const resp = await createCustomer(req.body.name, req.body.phone);
-        console.log(`data: ${JSON.stringify(resp.data)}`);
+        const {userId, viewerId} = req.body;
+        // associate viewerId with userId
+        await associateTraitUserIdWithViewerId(viewerId, userId);
+        // get cart for userId
+        const cart = await getCart(userId);
+        // console.log(`cart: ${JSON.stringify(cart)}`);
+        // create rapyd checkout
+        const account = await getUserByPhone(userId)
+        // console.log(`userAccount for ${userId}: ${JSON.stringify(account)}`);
+        const checkout = await createCheckout(account.rapydCusId, cart.total);
+        await associateCheckoutIdWithCart(cart.cartId, checkout.data.data.id);
+        // console.log(`create new rapydCheckout: ${JSON.stringify(checkout.data)}`);
+        res.json({type: 'checkout', id: checkout.data.data.id})
     } catch (e) {
-        console.error(e);
+        console.log(`err:${e}`);
+        return 'failed';
     }
-    res.send(`ok`)
 })
 
-// Ingest abandoned cart event -- Merchant
 app.get('/cart', async (req, res) => {
-    try {
-        const res = await createCheckout();
-        console.log(`data: ${JSON.stringify(res.data)}`);
-    } catch (e) {
-        console.error(e.message);
+    console.log(`req params: ${JSON.stringify(req.query)}`);
+    const rapydCheckoutId = req.query.id;
+    if (rapydCheckoutId.length === 0) {
+        res.send('checkout id should not be empty')
+    } else {
+        const cart = await getCartWithItemsByRapydCheckoutId(rapydCheckoutId);
+        res.json({...cart});
     }
-    res.send('ok')
 });
 
+// ingest trait events for viewer -- publisher
+app.post('/trait', async (req, res) => {
+    const {viewerId, traits} = req.body;
+    await addOrUpdateTraits({traits, viewerId});
+    res.send('ok');
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
