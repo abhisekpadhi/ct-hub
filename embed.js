@@ -1,5 +1,5 @@
 const genieUrl = 'https://rapydgenie.netlify.app'; // frontend url
-const apiUrl = 'https://7a6d-49-37-44-182.ngrok.io'; // backend api url
+const apiUrl = 'https://02b7-49-37-44-182.ngrok.io'; // backend api url
 
 // emits a user trait to backend
 function emitTrait(traits) {
