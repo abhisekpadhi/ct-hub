@@ -74,16 +74,15 @@ const addOrUpdateTraits = async ({traits, viewerId}) => {
     console.log(`existing traits: ${JSON.stringify(existingTraits)}`);
     if (existingTraits === undefined) {
         // create new record
-        const updated = [traits];
-        await addUserTraitsForViewer({traits: JSON.stringify(updated), viewerId})
-        console.log(`created new traits for ${viewerId}: ${JSON.stringify(updated)}`);
+        await addUserTraitsForViewer({traits, viewerId})
+        console.log(`created new traits for ${viewerId}: ${traits}`);
     } else {
         // update record append add trait to list
-        const updted = JSON.parse(existingTraits.traits);
+        const updted = existingTraits.traits.split(',');
         if (updted.indexOf(traits) === -1) {
             updted.push(traits);
         }
-        await updateUserTraitsByViewer({traits: updted, viewerId});
+        await updateUserTraitsByViewer({traits: updted.join(','), viewerId});
         console.log(`traits updated for viewer ${viewerId}: ${JSON.stringify(updted)}`);
     }
 };
