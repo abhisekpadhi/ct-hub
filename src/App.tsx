@@ -50,8 +50,14 @@ function App() {
         chkout.displayCheckout();
     }
     const [success, setSuccess] = useState<boolean | null>(null);
-    const markRecovered = () => {
-        const rapydCheckoutId = checkoutId;
+    useEffect(() => {
+        if (success && checkoutId.length > 0) {
+            markRecovered(checkoutId);
+        }
+    }, [success, checkoutId])
+    const markRecovered = (cid: string) => {
+        console.log(`mark recovered called for checkoutId ${checkoutId}`);
+        const rapydCheckoutId = cid;
         if (rapydCheckoutId.length > 0) {
             const url = API_URL + `/recovered?id=${rapydCheckoutId}`;
             fetch(url, {
@@ -102,7 +108,6 @@ function App() {
         // listen to rapyd checkout events
         window.addEventListener('onCheckoutPaymentSuccess', function (event: any) {
             setSuccess(true);
-            markRecovered()
             console.log(`onCheckoutPaymentSuccess: ${JSON.stringify(event.detail)}`)
         });
         window.addEventListener('onCheckoutFailure', function (event: any) {
