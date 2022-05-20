@@ -14,7 +14,7 @@ const {getCartWithItemsByRapydCheckoutId} = require("./dal");
 const app = express()
 app.use(express.json());
 app.use(cors({origin: '*'}));
-const port = 3010
+const port = process.env.PORT
 
 app.get('/healthz', async (req, res) => {
    res.json({status: 'ok'});
@@ -27,7 +27,7 @@ app.post('/customer', async (req, res) => {
     const rapydCusId = resp.data['data']['id'];
     console.log(`rapyd create customer: ${JSON.stringify(rapydCusId)}`);
     await addUser({phone, rapydCusId, custName});
-    res.send('ok')
+    res.json({status: 'ok'});
 });
 
 // compute abandoned cart to recover via the ad
@@ -48,7 +48,7 @@ app.post('/ads', async (req, res) => {
         res.json({type: 'checkout', id: checkout.data.data.id})
     } catch (e) {
         console.log(`err:${e}`);
-        return 'failed';
+        res.json({status: 'failed'});
     }
 })
 
@@ -56,7 +56,7 @@ app.get('/cart', async (req, res) => {
     console.log(`req params: ${JSON.stringify(req.query)}`);
     const rapydCheckoutId = req.query.id;
     if (rapydCheckoutId.length === 0) {
-        res.send('checkout id should not be empty')
+        res.json({status: 'checkout id should not be empty'});
     } else {
         const cart = await getCartWithItemsByRapydCheckoutId(rapydCheckoutId);
         res.json({...cart});
@@ -67,7 +67,7 @@ app.get('/cart', async (req, res) => {
 app.post('/trait', async (req, res) => {
     const {viewerId, traits} = req.body;
     await addOrUpdateTraits({traits, viewerId});
-    res.send('ok');
+    res.json({status: 'ok'});
 })
 
 app.listen(port, () => {

@@ -1,9 +1,10 @@
-const genieUrl = 'https://rapydgenie.netlify.app';
-const apiUrl = 'https://----.ngrok.io'; // backend url
+const genieUrl = 'https://rapydgenie.netlify.app'; // frontend url
+const apiUrl = 'https://rapydgenie-nodejs-api.onrender.com  '; // backend api url
 
+// emits a user trait to backend
 function emit(traits) {
     const viewerId = localStorage.getItem('viewerId');
-    fetch(genieUrl + '/trait', {
+    fetch(apiUrl + '/trait', {
         method: 'POST',
         body: JSON.stringify({viewerId, traits}),
     }).then(_ => {});
@@ -19,6 +20,7 @@ function hideGenie() {
     genieEl.style.display = 'none';
 }
 
+// injects the ad iframe
 function handleIframeEmbed(link = '') {
     const genieEl = document.getElementById('rapydgenie');
     genieEl.textContent = 'Complete the following task to continue <br />';
@@ -31,8 +33,8 @@ function handleIframeEmbed(link = '') {
     genieEl.appendChild(iframe);
 }
 
+// fetches checkoutId and embeds ad iframe
 function prepareAd(userId, viewerId) {
-    // fetch checkoutId
     fetch(apiUrl + '/ads', {
         method: 'POST',
         body: JSON.stringify({userId, viewerId}),
@@ -48,8 +50,8 @@ function prepareAd(userId, viewerId) {
         .catch(console.log)
 }
 
-function showGenie(userId = '', viewerId = '') {
-    // embed iframe that will perform following activities 👇
+// decides what iframe to embed for ad
+function processAd(userId = '', viewerId = '') {
     if (userId.length > 0 && viewerId.length > 0) {
         // show abandoned cart
         prepareAd(userId, viewerId);
