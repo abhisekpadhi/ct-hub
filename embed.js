@@ -77,5 +77,5 @@ function processGenie(userId = '', viewerId = '') {
     } else {
         console.log(`[embed] viewerId found: ${viewerId}`);
     }
-    hideGenie();
+    // hideGenie();
 })();
