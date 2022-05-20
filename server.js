@@ -16,6 +16,10 @@ app.use(express.json());
 app.use(cors({origin: '*'}));
 const port = 3010
 
+app.get('/healthz', async (req, res) => {
+   res.json({status: 'ok'});
+});
+
 // register new user -- Merchant calls this
 app.post('/customer', async (req, res) => {
     const {phone, custName} = req.body;
