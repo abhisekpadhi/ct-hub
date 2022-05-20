@@ -44,10 +44,10 @@ function App() {
     const [picUrl] = useState('https://i.imgur.com/S48w9VV.jpeg');
     const [loading, setLoading] = useState(true);
     const startCheckout = () => {
-        // const chkout = new (window as any).RapydCheckoutToolkit({
-        //   id: "checkout_30c9875a7a6867c38776e626c0dc7a7a",
-        // });
-        // chkout.displayCheckout();
+        const chkout = new (window as any).RapydCheckoutToolkit({
+          id: checkoutId,
+        });
+        chkout.displayCheckout();
     }
     const [success, setSuccess] = useState<boolean | null>(null);
     const fetchCart = (rapydCheckoutId: string) => {
@@ -58,7 +58,9 @@ function App() {
                 .then(res => {
                     console.log(`cart result: ${JSON.stringify(res)}`);
                     setCart(res);
+                    setLoading(false);
                 })
+                .catch(console.log)
         } else {
             console.log(`cannot fetchCart since rapydCheckoutId is empty`)
         }
@@ -71,12 +73,13 @@ function App() {
         });
         console.log(`[iframe] search params: ${params['id']}`);
         // if not abandoned cart, show picture ad
-        if (!('id' in params) || params.id.length === 0) {
+        if (params.id === null) {
             console.log(`going to show picture ad`);
             setLoading(false);
             setShowPic(true);
             return;
         }
+        console.log(`going to show abandoned cart`);
         const rapydCheckoutId = params.id;
         setCheckoutId(rapydCheckoutId);
         fetchCart(rapydCheckoutId);
