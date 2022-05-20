@@ -50,6 +50,22 @@ function App() {
         chkout.displayCheckout();
     }
     const [success, setSuccess] = useState<boolean | null>(null);
+    const markRecovered = () => {
+        const rapydCheckoutId = checkoutId;
+        if (rapydCheckoutId.length > 0) {
+            const url = API_URL + `/recovered?id=${rapydCheckoutId}`;
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify({rapydCheckoutId}),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+                .then(_ => {})
+                .catch(console.log);
+        }
+
+    }
     const fetchCart = (rapydCheckoutId: string) => {
         if (rapydCheckoutId.length > 0) {
             const url = API_URL + `/cart?id=${rapydCheckoutId}`;
@@ -86,6 +102,7 @@ function App() {
         // listen to rapyd checkout events
         window.addEventListener('onCheckoutPaymentSuccess', function (event: any) {
             setSuccess(true);
+            markRecovered()
             console.log(`onCheckoutPaymentSuccess: ${JSON.stringify(event.detail)}`)
         });
         window.addEventListener('onCheckoutFailure', function (event: any) {

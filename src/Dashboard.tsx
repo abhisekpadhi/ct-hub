@@ -136,7 +136,7 @@ function TraitTable(props: {c: any}) {
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                         <TableCell component="th" scope="row">
-                            <Chip color={'success'} label={trait.userId} />
+                            {trait.userId && (<Chip color={'success'} label={trait.userId}/>)}
                         </TableCell>
                         <TableCell>
                             {trait.traits}
