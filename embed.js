@@ -9,7 +9,6 @@ function emitTrait(traits) {
         method: 'POST',
         body: JSON.stringify({viewerId, traits}),
         headers: {
-            'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
     }).then(_ => {});
@@ -48,7 +47,6 @@ function prepareAd(userId, viewerId) {
         method: 'POST',
         body: JSON.stringify({userId, viewerId}),
         headers: {
-            'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
     })
