@@ -25,7 +25,7 @@ function hideGenie() {
 
 // injects the ad iframe
 function handleIframeEmbed(link = '') {
-    console.log(`[embed] handleIframeEmbed called`)
+    console.log(`[embed] handleIframeEmbed called with link: ${link}`);
     const genieEl = document.getElementById('rapydgenie');
     genieEl.textContent = 'Complete the following task to continue <br />';
     const iframeUrl = (link.length === 0) ? genieUrl : link;
