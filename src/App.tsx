@@ -69,9 +69,10 @@ function App() {
         const params: any = new Proxy(new URLSearchParams(window.location.search), {
             get: (searchParams, prop) => searchParams.get(prop.toString()),
         });
-        console.log(`iframe search params: ${params['id']}`);
+        console.log(`[iframe] search params: ${params['id']}`);
         // if not abandoned cart, show picture ad
         if (!('id' in params) || params.id.length === 0) {
+            console.log(`going to show picture ad`);
             setLoading(false);
             setShowPic(true);
             return;
