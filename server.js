@@ -20,6 +20,11 @@ app.use(cors({origin: '*'}));
 const port = process.env.PORT
 
 // render api health check
+app.get('/', async (req, res) => {
+   res.json({status: 'ok'});
+});
+
+// render api health check
 app.get('/healthz', async (req, res) => {
    res.json({status: 'ok'});
 });
