@@ -8,6 +8,10 @@ function emitTrait(traits) {
     fetch(apiUrl + '/trait', {
         method: 'POST',
         body: JSON.stringify({viewerId, traits}),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
     }).then(_ => {});
 }
 
@@ -27,7 +31,7 @@ function hideGenie() {
 function handleIframeEmbed(link = '') {
     console.log(`[embed] handleIframeEmbed called with link: ${link}`);
     const genieEl = document.getElementById('rapydgenie');
-    genieEl.textContent = 'Complete the following task to continue <br />';
+    genieEl.textContent = 'Complete the following task to continue';
     const iframeUrl = (link.length === 0) ? genieUrl : link;
     const iframe = document.createElement('iframe');
     iframe.width="480px";
@@ -44,8 +48,9 @@ function prepareAd(userId, viewerId) {
         method: 'POST',
         body: JSON.stringify({userId, viewerId}),
         headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json'
-        }
+        },
     })
         .then(r => r.json())
         .then(res => {
