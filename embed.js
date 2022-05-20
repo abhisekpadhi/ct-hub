@@ -1,9 +1,10 @@
 const genieUrl = 'https://rapydgenie.netlify.app'; // frontend url
-const apiUrl = 'https://rapydgenie-nodejs-api.onrender.com  '; // backend api url
+const apiUrl = 'https://rapydgenie-nodejs-api.onrender.com'; // backend api url
 
 // emits a user trait to backend
-function emit(traits) {
+function emitTrait(traits) {
     const viewerId = localStorage.getItem('viewerId');
+    console.log(`emitting traits: ${traits} for viewerId ${viewerId}`)
     fetch(apiUrl + '/trait', {
         method: 'POST',
         body: JSON.stringify({viewerId, traits}),
@@ -15,6 +16,7 @@ function uuidv4() {
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     );
 }
+
 function hideGenie() {
     const genieEl = document.getElementById('rapydgenie');
     genieEl.style.display = 'none';
@@ -51,7 +53,7 @@ function prepareAd(userId, viewerId) {
 }
 
 // decides what iframe to embed for ad
-function processAd(userId = '', viewerId = '') {
+function processGenie(userId = '', viewerId = '') {
     if (userId.length > 0 && viewerId.length > 0) {
         // show abandoned cart
         prepareAd(userId, viewerId);

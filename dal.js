@@ -43,15 +43,14 @@ const addCart = async ({cart, cartItems}) => {
     }
 }
 
-const getUserTraitsByUserId = async (userId) => {
-    await get('SELECT * FROM userTraits WHERE userId = $userId', {
-        $userId: userId,
-    });
-}
 const getUserTraitsByViewerId = async (viewerId) => {
-    await get('SELECT * FROM userTraits WHERE viewerId = $viewerId', {
+    return await get('SELECT * FROM userTraits WHERE viewerId = $viewerId', {
         $viewerId: viewerId
     });
+}
+
+const getAllTraits = async () => {
+    return await all('SELECT * FROM userTraits');
 }
 
 const addUserTraitsForViewer = async ({traits, viewerId}) => {
@@ -60,6 +59,7 @@ const addUserTraitsForViewer = async ({traits, viewerId}) => {
         $traits: traits,
         $viewerId: viewerId,
     });
+    console.log(`added traits ${traits} for viewer ${viewerId}`);
 }
 
 const updateUserTraitsByViewer = async ({traits, viewerId}) => {
@@ -120,6 +120,18 @@ const getCartWithItemsByRapydCheckoutId = async (rapydCheckoutId) => {
     }
 }
 
+const getAllCart = async () => {
+    return await all('SELECT * FROM cart');
+}
+
+const markCartRecovered = async (rapydCheckoutId) => {
+    await run('UPDATE cart SET status = $status WHERE rapydCheckoutId = $rapydCheckoutId', {
+        $status: 'recovered',
+        $rapydCheckoutId: rapydCheckoutId,
+    });
+    console.log(`recovered cart rapydCheckoutId ${rapydCheckoutId}`);
+}
+
 module.exports = {
     addOrUpdateTraits,
     associateTraitUserIdWithViewerId,
@@ -127,5 +139,8 @@ module.exports = {
     getUserByPhone,
     addUser,
     associateCheckoutIdWithCart,
-    getCartWithItemsByRapydCheckoutId
+    getCartWithItemsByRapydCheckoutId,
+    getAllTraits,
+    getAllCart,
+    markCartRecovered
 }
