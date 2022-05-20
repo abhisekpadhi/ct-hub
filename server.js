@@ -41,6 +41,8 @@ app.post('/customer', async (req, res) => {
 
 // compute abandoned cart to recover via the ad -- ad frontend
 app.post('/ads', async (req, res) => {
+    console.log('fetching ads...')
+    console.log(req.body)
     try {
         const {userId, viewerId} = req.body;
         await associateTraitUserIdWithViewerId(viewerId, userId);
