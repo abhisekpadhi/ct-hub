@@ -1,38 +1,34 @@
-# ct-hub
+# Rapyd Genie
+It a POC of an Ad network that tracks what incentivizes users & leverages that information to recover abandoned carts.
 
-## Response
-- Response for create customer 
-```json
-{
-  "status": {
-    "error_code": "",
-    "status": "SUCCESS",
-    "message": "",
-    "response_code": "",
-    "operation_id": "11680253-c4f4-4cf9-a1e4-0212666ffeec"
-  },
-  "data": {
-    "id": "cus_37fe2fc4ff1c053652f70a3eeb282ba4",
-    "delinquent": false,
-    "discount": null,
-    "name": "Chirrup",
-    "default_payment_method": "",
-    "description": "",
-    "email": "",
-    "phone_number": "+919876543211",
-    "invoice_prefix": "",
-    "addresses": [],
-    "payment_methods": null,
-    "subscriptions": null,
-    "created_at": 1652942320,
-    "metadata": {},
-    "business_vat_id": "",
-    "ewallet": ""
-  }
-}
+## How does it works?
+- This project contains 2 components:
+  - `API Server`: API's to capture abandoned carts, fetch ads for the client 
+  - `Ad frontend`: Frontend app built with React that handles logic of showing ad. It is located at `rapydgenie.netlify.com`
+  - Embed script at `embed.js`, which publishers needs to embed 
+- To embed simply put this before closing of `<body>` tag
+```html
+<script src="https://cdn.statically.io/gh/abhisekpadhi/ct-hub/main/embed.js" async defer></script>
 ```
 
-## Response for create checkout
-```json
-
+## How to setup this project
+- To test the POC, you will need to run an ecommerce app & a game app
+- Ecommerce app is here: https://github.com/abhisekpadhi/ct-sat1
+- Game app is here: https://github.com/abhisekpadhi/ct-sat2
+- Run the server, in the `ct-hub` project run
+```shell
+yarn server
 ```
+- Note: Embed script is currently set to call the api server running at localhost
+
+## Tech stack
+- API: nodejs
+- Frontend: react
+
+## Tests
+- [x] Create customer using rapyd api
+- [ ] Webhook to receive abandon cart events
+- [x] API to fetch ads to show on the ad frontend app in the publisher side
+- [x] Webhook to receive user traits (incentives)
+- [x] API to mark cart recovered
+- [x] Localstorage sharing with whitelisted domains

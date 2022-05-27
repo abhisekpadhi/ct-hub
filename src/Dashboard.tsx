@@ -179,6 +179,7 @@ export default function Dashboard() {
             .catch(console.log);
     };
     useEffect(() => {
+        document.title = 'Dashboard';
         getCart();
         getUserTracker();
         const i1 = setInterval(getCart, 4000);
